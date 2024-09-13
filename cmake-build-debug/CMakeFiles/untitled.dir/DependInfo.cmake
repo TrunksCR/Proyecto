@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/jota/Descargas/untitled(1)/untitled/main.cpp" "CMakeFiles/untitled.dir/main.cpp.o" "gcc" "CMakeFiles/untitled.dir/main.cpp.o.d"
+  "/home/jota/Descargas/untitled(1)/untitled/test_MPointer.cpp" "CMakeFiles/untitled.dir/test_MPointer.cpp.o" "gcc" "CMakeFiles/untitled.dir/test_MPointer.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

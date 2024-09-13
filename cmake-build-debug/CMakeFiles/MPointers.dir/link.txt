@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/MPointers.dir/main.cpp.o CMakeFiles/MPointers.dir/test_MPointer.cpp.o -o MPointers  lib/libgtestd.a lib/libgtest_maind.a lib/libgtestd.a

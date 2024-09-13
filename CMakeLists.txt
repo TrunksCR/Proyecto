@@ -1,21 +1,34 @@
-cmake_minimum_required(VERSION 3.29)
-project(untitled)
+cmake_minimum_required(VERSION 3.10)
+project(MPointers)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
-# Buscar GoogleTest
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+# Añadir GoogleTest usando FetchContent
+include(FetchContent)
+FetchContent_Declare(
+        gtest
+        GIT_REPOSITORY https://github.com/google/googletest
+        GIT_TAG release-1.11.0
+)
+FetchContent_MakeAvailable(gtest)
 
-# Agregar el ejecutable
-add_executable(untitled
+# Añadir los archivos fuente
+add_executable(MPointers
         main.cpp
-        MPointerGC.h
+        test_MPointer.cpp
         MPointer.h
+        MPointerGC.h
+        SortingAlgorithms.h
+        SortingAlgorithms.inl
         DoublyLinkedList.h
+        DoublyLinkedList.inl
+        MPointerGC.tpp
         MPointer.tpp
-        DoublyLinkedList.tpp
 )
 
-# Enlazar con GoogleTest y pthread
-target_link_libraries(untitled ${GTEST_LIBRARIES} pthread)
+# Enlazar GoogleTest
+target_link_libraries(MPointers gtest gtest_main)
+
+# Configurar el directorio de pruebas
+enable_testing()
+add_test(NAME MPointerTests COMMAND MPointers)

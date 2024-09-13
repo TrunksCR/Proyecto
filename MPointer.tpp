@@ -1,72 +1,60 @@
-#include "MPointer.h"
-#include "MPointerGC.h"
+#ifndef MPTR_TPP
+#define MPTR_TPP
 
-template <typename T>
+#include "MPointer.h"
+
+template<typename T>
+MPointer<T> MPointer<T>::New() {
+    return MPointer<T>(new T());
+}
+
+template<typename T>
+MPointer<T>::MPointer() : ptr(nullptr) {}
+
+template<typename T>
+MPointer<T>::MPointer(T* rawPtr) : ptr(rawPtr) {
+    registerGC();
+}
+
+template<typename T>
+MPointer<T>::MPointer(const MPointer<T>& other) : ptr(other.ptr) {
+    registerGC();
+}
+
+template<typename T>
 MPointer<T>& MPointer<T>::operator=(const MPointer<T>& other) {
     if (this != &other) {
-        // Decrease reference count of the old pointer
-        if (ptr) {
-            MPointerGC<T>::instance().decreaseRefCount(id);
-            if (MPointerGC<T>::instance().getRefCount(id) == 0) {
-                delete ptr;
-            }
-        }
-
-        // Assign new values
+        unregisterGC();
         ptr = other.ptr;
-        id = other.id;
-
-        // Increase reference count of the new pointer
-        if (ptr) {
-            MPointerGC<T>::instance().increaseRefCount(id);
-        }
+        registerGC();
     }
     return *this;
 }
 
-template <typename T>
-MPointer<T>::MPointer(const MPointer<T>& other) : ptr(other.ptr), id(other.id) {
-    if (ptr) {
-        MPointerGC<T>::instance().increaseRefCount(id);
-    }
-}
-
-template <typename T>
-MPointer<T> MPointer<T>::New() {
-    T* newPtr = new T(); // Create a new object of type T
-    int newId = MPointerGC<T>::instance().registerPointer(newPtr);
-    return MPointer<T>(newPtr, newId);
-}
-
-template <typename T>
+template<typename T>
 MPointer<T>::~MPointer() {
-    if (ptr) {
-        MPointerGC<T>::instance().decreaseRefCount(id);
-        if (MPointerGC<T>::instance().getRefCount(id) == 0) {
-            delete ptr;
-        }
-    }
+    unregisterGC();
+    delete ptr;
 }
 
-template <typename T>
-T& MPointer<T>::operator*() const {
+template<typename T>
+T& MPointer<T>::operator*() {
     return *ptr;
 }
 
-template <typename T>
-T* MPointer<T>::operator->() const {
+template<typename T>
+T* MPointer<T>::operator&() {
     return ptr;
 }
 
-template <typename T>
-MPointer<T>& MPointer<T>::operator=(const T& value) {
-    if (ptr) {
-        *ptr = value;
-    }
-    return *this;
+template<typename T>
+void MPointer<T>::registerGC() {
+    MPointerGC<T>::instance().registerPointer(this);
 }
 
-template <typename T>
-T& MPointer<T>::operator&() const {
-    return *ptr;
+template<typename T>
+void MPointer<T>::unregisterGC() {
+    MPointerGC<T>::instance().unregisterPointer(this);
 }
+
+#endif // MPTR_TPP

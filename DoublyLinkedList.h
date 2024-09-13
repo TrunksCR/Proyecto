@@ -1,40 +1,31 @@
-#ifndef DOUBLY_LINKED_LIST_H
-#define DOUBLY_LINKED_LIST_H
-
-#include "MPointer.h"
+#ifndef DOUBLYLINKEDLIST_H
+#define DOUBLYLINKEDLIST_H
 
 template <typename T>
 class DoublyLinkedList {
 public:
-    class Node {
-    public:
-        Node(const T& value)
-            : data(MPointer<T>::New()), next(nullptr), prev(nullptr) {
-            *data = value;
-        }
-
-        MPointer<T> data;
-        Node* next;
-        Node* prev;
-    };
-
-    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
-
+    DoublyLinkedList();
+    ~DoublyLinkedList();
     void append(const T& value);
-    void quickSort();
-    void bubbleSort();
-    void insertionSort();
     void printList() const;
+    void remove(typename DoublyLinkedList<T>::Node* node);
+    typename DoublyLinkedList<T>::Node* find(const T& value) const;
+    typename DoublyLinkedList<T>::Node* getHead() const;
+    typename DoublyLinkedList<T>::Node* getTail() const;
 
 private:
+    class Node {
+    public:
+        T data;
+        Node* next;
+        Node* prev;
+        Node(const T& value) : data(value), next(nullptr), prev(nullptr) {}
+    };
+
     Node* head;
     Node* tail;
-
-    Node* partition(Node* low, Node* high);
-    void quickSort(Node* low, Node* high);
-    void swap(Node* a, Node* b);
 };
 
-#include "DoublyLinkedList.tpp"
+#include "DoublyLinkedList.inl"
 
-#endif // DO
+#endif // DOUBLYLINKEDLIST_H

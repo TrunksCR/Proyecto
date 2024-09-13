@@ -1,35 +1,28 @@
-#ifndef MPOINTER_H
-#define MPOINTER_H
+#ifndef MPTR_H
+#define MPTR_H
 
-#include <utility>
-#include <iostream>
+#include "MPointerGC.h"
 
-template <typename T>
-class MPointerGC; // Forward declaration
-
-template <typename T>
+template<typename T>
 class MPointer {
 public:
     static MPointer<T> New();
 
-    MPointer() : ptr(nullptr), id(-1) {}
-    MPointer(T* p, int i) : ptr(p), id(i) {}
-    MPointer(const MPointer<T>& other); // Copy constructor
-    MPointer<T>& operator=(const MPointer<T>& other); // Copy assignment
-    ~MPointer(); // Destructor
+    MPointer();
+    MPointer(T* rawPtr);
+    MPointer(const MPointer<T>& other);
+    MPointer<T>& operator=(const MPointer<T>& other);
+    ~MPointer();
 
-    T& operator*() const;
-    T* operator->() const;
-    MPointer<T>& operator=(const T& value);
-    T& operator&() const;
+    T& operator*();
+    T* operator&();
 
 private:
     T* ptr;
-    int id;
-    static MPointerGC<T>* gc; // Reference to the garbage collector
+    void registerGC();
+    void unregisterGC();
 };
 
-// Include implementation
-#include "MPointer.tpp"
+#include "MPointer.tpp" // Incluye la implementación de la plantilla
 
-#endif // MPOINTER_H
+#endif // MPTR_H

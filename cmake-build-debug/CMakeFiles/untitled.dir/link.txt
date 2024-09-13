@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/untitled.dir/main.cpp.o -o untitled  /usr/lib/x86_64-linux-gnu/libgtest.a -lpthread
+/usr/bin/c++ -g CMakeFiles/untitled.dir/main.cpp.o CMakeFiles/untitled.dir/test_MPointer.cpp.o -o untitled
