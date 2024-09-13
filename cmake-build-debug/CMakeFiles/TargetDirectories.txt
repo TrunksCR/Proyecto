@@ -1,0 +1,3 @@
+/home/jota/Descargas/untitled(1)/untitled/cmake-build-debug/CMakeFiles/untitled.dir
+/home/jota/Descargas/untitled(1)/untitled/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/jota/Descargas/untitled(1)/untitled/cmake-build-debug/CMakeFiles/rebuild_cache.dir
